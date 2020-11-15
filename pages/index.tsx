@@ -1,4 +1,11 @@
 import Head from 'next/head'
+import { getTrees } from '../src/ecologi-api/trees'
+
+const trees = () => {
+  return getTrees()
+    .then(res => res.data.data)
+    .catch(err => console.error(err))
+}
 
 export const Home = (): JSX.Element => (
   <div className="container">
@@ -17,9 +24,7 @@ export const Home = (): JSX.Element => (
       </p>
 
       <button
-        onClick={() => {
-          window.alert('With typescript and Jest')
-        }}
+        onClick={() => console.log(trees())}
       >
         Test Button
       </button>

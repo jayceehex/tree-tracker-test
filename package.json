@@ -26,13 +26,10 @@
     ]
   },
   "dependencies": {
-    "@types/recharts": "^1.8.16",
     "axios": "^0.21.0",
-    "babel-plugin-recharts": "^1.2.1",
     "next": "latest",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "recharts": "^1.8.5"
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@testing-library/react": "^10.0.1",

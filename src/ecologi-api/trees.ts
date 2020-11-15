@@ -1,4 +1,4 @@
 import Axios from 'axios'
 import axios from 'axios'
 
-export const getTrees = () => axios.get('https://public.ecologi.com/trees')
+export const getTrees = (): Promise<any> => axios.get('https://public.ecologi.com/trees')

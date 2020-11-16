@@ -2,19 +2,12 @@ import { Component, Fragment } from 'react'
 import { getTrees } from '../src/ecologi-api/trees'
 import { VictoryBar, VictoryChart, VictoryTheme } from 'victory'
 import crossfilter from 'crossfilter2'
-// import { formatISO } from 'date-fns/esm'
-
-const squashedDates = (data) => {
-  return data.map((obj) => ({
-    value: obj.value,
-    date: new Date(obj.createdAt.slice(0, 10)),
-  }))
-}
+import squashedDates from '../src/utils/squashed-dates'
 
 class TreeChart extends Component {
   constructor(props) {
     super(props)
-    this.state = { loading: true }
+    this.state = { loading: true, error: false }
   }
 
   componentDidMount() {
@@ -23,21 +16,26 @@ class TreeChart extends Component {
       .then((data) => squashedDates(data))
       .then((data) => {
         const dataByDate = crossfilter(data)
-          .dimension((d) => d.date)
+          .dimension((d) => d.createdAt)
           .group()
         return dataByDate.reduceSum((d) => d.value).all()
       })
       .then((data) => this.setState({ loading: false, data }))
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err)
+        return this.setState({ loading: false, error: true })
+      })
   }
 
   render() {
-    const { loading, data } = this.state
+    const { loading, error, data } = this.state
 
     return (
       <Fragment>
         {loading ? (
           'Loading...'
+        ) : error ? (
+          'There was an error. Please try again later.'
         ) : (
           <VictoryChart domainPadding={10} theme={VictoryTheme.material}>
             <VictoryBar

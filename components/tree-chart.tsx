@@ -1,30 +1,31 @@
-import { Component, Fragment } from 'react'
-import { getTrees } from '../src/ecologi-api/trees'
+import { Fragment } from 'react'
+import React from 'react'
+import { EcologiResponse, getTrees } from '../src/ecologi-api/trees'
 import { VictoryBar, VictoryChart, VictoryTheme } from 'victory'
 import crossfilter from 'crossfilter2'
 import squashedDates from '../src/utils/squashed-dates'
 
-class TreeChart extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { loading: true, error: false }
-  }
+class TreeChart extends React.Component {
+  state = { loading: true, error: false, data: [] }
 
   componentDidMount() {
-    getTrees()
-      .then((res) => res.data.data)
-      .then((data) => squashedDates(data))
-      .then((data) => {
-        const dataByDate = crossfilter(data)
-          .dimension((d) => d.createdAt)
-          .group()
-        return dataByDate.reduceSum((d) => d.value).all()
-      })
-      .then((data) => this.setState({ loading: false, data }))
-      .catch((err) => {
-        console.error(err)
-        return this.setState({ loading: false, error: true })
-      })
+    this.transformTreeData(getTrees())
+  }
+
+  async transformTreeData(res: Promise<EcologiResponse>) {
+    try {
+      const valueSumByDate = crossfilter(squashedDates((await res).data.data))
+        .dimension((d) => d.createdAt)
+        .group()
+        .reduceSum((d) => d.value)
+        .all()
+      this.setState({ data: valueSumByDate })
+    } catch (e) {
+      console.error(e)
+      this.setState({ error: true })
+    } finally {
+      this.setState({ loading: false })
+    }
   }
 
   render() {

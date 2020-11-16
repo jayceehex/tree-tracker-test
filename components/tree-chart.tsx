@@ -39,8 +39,17 @@ class TreeChart extends Component {
         {loading ? (
           'Loading...'
         ) : (
-          <VictoryChart domainPadding={20} theme={VictoryTheme.grayscale}>
-            <VictoryBar data={data} y="value" x="key" />
+          <VictoryChart domainPadding={10} theme={VictoryTheme.material}>
+            <VictoryBar
+              data={data}
+              y="value"
+              x="key"
+              style={{
+                data: { fill: '#009f75' },
+                labels: { color: '#222222' },
+                parent: { border: '1px solid #222222' },
+              }}
+            />
           </VictoryChart>
         )}
       </Fragment>

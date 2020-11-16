@@ -9,10 +9,11 @@ export const Home = (): JSX.Element => (
     </Head>
 
     <main>
-      <h1 className="title">Ecologi tree planting</h1>
+      <h1 className="title">Ecologi and trees</h1>
 
       <p className="description">
-        Check out how many trees Ecologi plants a day!
+        How many trees does Ecologi plant every day? <br />
+        Check out the graph below to find out.
       </p>
 
       <TreeChart />
@@ -40,7 +41,7 @@ export const Home = (): JSX.Element => (
       footer {
         width: 100%;
         height: 100px;
-        border-top: 1px solid #eaeaea;
+        border-top: 1px solid #222;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -156,6 +157,8 @@ export const Home = (): JSX.Element => (
         margin: 0;
         font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
           Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+        background-color: #f2f2f2;
+        color: #222222;
       }
 
       * {

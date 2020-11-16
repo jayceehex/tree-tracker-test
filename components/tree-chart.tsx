@@ -1,5 +1,15 @@
 import { Component, Fragment } from 'react'
 import { getTrees } from '../src/ecologi-api/trees'
+import { VictoryBar, VictoryChart, VictoryTheme } from 'victory'
+import crossfilter from 'crossfilter2'
+// import { formatISO } from 'date-fns/esm'
+
+const squashedDates = (data) => {
+  return data.map((obj) => ({
+    value: obj.value,
+    date: new Date(obj.createdAt.slice(0, 10)),
+  }))
+}
 
 class TreeChart extends Component {
   constructor(props) {
@@ -10,6 +20,12 @@ class TreeChart extends Component {
   componentDidMount() {
     getTrees()
       .then((res) => res.data.data)
+      .then((data) => squashedDates(data))
+      .then((data) => {
+        const cfData = crossfilter(data)
+        const cfGroup = cfData.dimension((d) => d.date).group()
+        return cfGroup.all()
+      })
       .then((data) => this.setState({ loading: false, data }))
       .catch((err) => console.error(err))
   }
@@ -19,7 +35,13 @@ class TreeChart extends Component {
 
     return (
       <Fragment>
-        {loading ? 'Loading...' : `Chart goes here: ${data[0].toString()}`}
+        {loading ? (
+          'Loading...'
+        ) : (
+          <VictoryChart domainPadding={20} theme={VictoryTheme.grayscale}>
+            <VictoryBar data={data} y="value" x="key" />
+          </VictoryChart>
+        )}
       </Fragment>
     )
   }

@@ -9,9 +9,7 @@ export const Home = (): JSX.Element => (
     </Head>
 
     <main>
-      <h1 className="title">
-        Ecologi tree planting
-      </h1>
+      <h1 className="title">Ecologi tree planting</h1>
 
       <p className="description">
         Check out how many trees Ecologi plants a day!

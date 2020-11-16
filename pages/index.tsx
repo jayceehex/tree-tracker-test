@@ -8,21 +8,18 @@ export const Home = (): JSX.Element => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
+    <header>
+      <h1 className="title">Ecologi statistics</h1>
+    </header>
     <main>
-      <h1 className="title">Ecologi and trees</h1>
-
-      <p className="description">
-        How many trees does Ecologi plant every day? <br />
-        Check out the graph below to find out.
-      </p>
-
-      <TreeChart />
+      <div>
+        <TreeChart />
+      </div>
     </main>
 
     <style jsx>{`
       .container {
         min-height: 100vh;
-        padding: 0 0.5rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -30,12 +27,22 @@ export const Home = (): JSX.Element => (
       }
 
       main {
-        padding: 5rem 0;
+        padding: 3rem 0.5rem;
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+      }
+
+      header {
+        position: sticky;
+        padding: 5em 0.5rem;
+        background-color: #222;
+        color: #f2f2f2;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
       }
 
       footer {

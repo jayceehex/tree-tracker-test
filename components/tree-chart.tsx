@@ -22,9 +22,10 @@ class TreeChart extends Component {
       .then((res) => res.data.data)
       .then((data) => squashedDates(data))
       .then((data) => {
-        const cfData = crossfilter(data)
-        const cfGroup = cfData.dimension((d) => d.date).group()
-        return cfGroup.all()
+        const dataByDate = crossfilter(data)
+          .dimension((d) => d.date)
+          .group()
+        return dataByDate.reduceSum((d) => d.value).all()
       })
       .then((data) => this.setState({ loading: false, data }))
       .catch((err) => console.error(err))
